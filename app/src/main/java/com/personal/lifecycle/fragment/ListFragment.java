@@ -64,7 +64,7 @@ public class ListFragment extends BaseFragment implements FragmentInf {
     public void init() {
         super.init();
         String list = SharedPreferenceUtil.getEventList(mInf.getAppCtx());
-        if (list != null) {
+        if (list != null && !"".equals(list)) {
             String[] eventList = list.split("\n");
             for (int i = 0; i < eventList.length; i++) {
                 mEventList.add(new LifeEvent().unflatten(eventList[i]));
@@ -78,7 +78,6 @@ public class ListFragment extends BaseFragment implements FragmentInf {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(false);
         mAdapter = new RecyclerViewAdapter(this).set(mEventList);
-
         mRecyclerView.setAdapter(mAdapter);
     }
 

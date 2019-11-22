@@ -27,6 +27,9 @@ public class SharedPreferenceUtil {
 
     public static void setEventList(Context context, String list) {
         AppLog.d(TAG, "setEventList = " + list);
+        if (list == null || "".equals(list)) {
+            return;
+        }
         SharedPreferences pref = getSharedPreference(context);
         Editor editor = pref.edit();
         editor.putString(getEventKey(), list);

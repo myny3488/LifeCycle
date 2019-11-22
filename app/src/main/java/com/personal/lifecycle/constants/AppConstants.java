@@ -11,8 +11,11 @@ public class AppConstants {
 
     public static final String ACTION_EVENT_CREATE = "com.personal.lifecycle.create_event";
     public static final int REQUEST_CODE_EVENT_CREATE = 1;
+    public static final String EXTRA_START_EVENT = "extra_start_event";
+    public static final String EXTRA_END_EVENT = "extra_end_event";
 
     public static final int TAB_DEFAULT_POSITION = 1;
 
     public static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm";
+    public static final String DATE_SIMPLE_FORMAT = "HH:mm";
 }

@@ -29,51 +29,83 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/event_time_textview_height"
+            android:layout_height="wrap_content"
             android:layout_below="@id/event_name_edittext"
             android:layout_marginTop="@dimen/event_time_layout_marginTop"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/event_time_padding">
 
-                <ImageView
-                    android:id="@+id/event_start_imageview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/event_time_background"
-                    android:scaleType="fitXY" />
-
                 <TextView
-                    android:id="@+id/event_start_textview"
+                    android:id="@+id/event_start_title"
+                    style="@style/style_time_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:clickable="false" />
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/event_start_title" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/event_start_title"
+                    android:layout_marginTop="@dimen/event_time_padding">
+
+                    <ImageView
+                        android:id="@+id/event_start_imageview"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/event_time_textview_height"
+                        android:background="@drawable/event_time_background"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/event_start_textview"
+                        style="@style/style_time_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:clickable="false" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/event_time_padding">
 
-                <ImageView
-                    android:id="@+id/event_end_imageview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/event_time_background"
-                    android:scaleType="fitXY" />
-
                 <TextView
-                    android:id="@+id/event_end_textview"
+                    android:id="@+id/event_end_title"
+                    style="@style/style_time_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:clickable="false" />
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/event_end_title" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/event_end_title"
+                    android:layout_marginTop="@dimen/event_time_padding">
+
+                    <ImageView
+                        android:id="@+id/event_end_imageview"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/event_time_textview_height"
+                        android:background="@drawable/event_time_background"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/event_end_textview"
+                        style="@style/style_time_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:clickable="false" />
+                </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
 

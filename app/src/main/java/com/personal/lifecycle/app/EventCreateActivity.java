@@ -4,6 +4,7 @@ import static com.personal.lifecycle.constants.AppConstants.*;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -31,6 +32,31 @@ public class EventCreateActivity extends AppCompatActivity implements TimePicker
         toolbar.setTitle(R.string.create_event_toolbar_title);
         setSupportActionBar(toolbar);
 
+        setListeners();
+        initLayout();
+    }
+
+    private void initLayout() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_START_EVENT) && intent.hasExtra(EXTRA_END_EVENT)) {
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            int hour = calendar.get(Calendar.HOUR);
+            int min = calendar.get(Calendar.MINUTE);
+            TextView tv = findViewById(R.id.event_start_textview);
+            tv.setText(hour + ":" + min);
+
+            min += 5;
+            if (min >= 60) {
+                hour++;
+                min -= 60;
+            }
+            tv = findViewById(R.id.event_end_textview);
+            tv.setText(hour + ":" + min);
+        }
+    }
+
+    private void setListeners() {
         findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,12 +75,13 @@ public class EventCreateActivity extends AppCompatActivity implements TimePicker
         findViewById(R.id.event_start_imageview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showTimePickerDialog();
+                showTimePickerDialog(true);
             }
         });
         findViewById(R.id.event_end_imageview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showTimePickerDialog(false);
             }
         });
     }
@@ -65,10 +92,15 @@ public class EventCreateActivity extends AppCompatActivity implements TimePicker
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
     }
 
-    private void showTimePickerDialog() {
+    private void showTimePickerDialog(boolean start) {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int min = calendar.get(Calendar.MINUTE);
+        if (start) {
+
+        } else {
+
+        }
         TimePickerDialog dialog = new TimePickerDialog(this,
                 this, hour, min, DateFormat.is24HourFormat(this));
         dialog.show();
