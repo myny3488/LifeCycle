@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LifeCycle</string>
+    <string name="tab_title_list">List</string>
+    <string name="tab_title_stat">Statistics</string>
+    <string name="tab_title_setting">Setting</string>
+    <string name="create_event_toolbar_title">Create event</string>
+    <string name="event_title_hint">Event name</string>
+</resources>

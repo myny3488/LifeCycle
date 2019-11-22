@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_marginBottom="@dimen/app_toolbar_bottom_margin"
+        android:background="@color/color_app_default"
+        app:titleTextAppearance="@style/style_action_bar_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_toolbar"
+        android:paddingLeft="@dimen/layout_padding"
+        android:paddingRight="@dimen/layout_padding">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/event_name_edittext"
+            style="@style/style_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/event_edittext_height"
+            android:hint="@string/event_title_hint"
+            android:theme="@style/style_edittext" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/event_time_textview_height"
+            android:layout_below="@id/event_name_edittext"
+            android:layout_marginTop="@dimen/event_time_layout_marginTop"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/event_time_padding">
+
+                <ImageView
+                    android:id="@+id/event_start_imageview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/event_time_background"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/event_start_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:clickable="false" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/event_time_padding">
+
+                <ImageView
+                    android:id="@+id/event_end_imageview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/event_time_background"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/event_end_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:clickable="false" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Ok" />
+
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Cancel" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
