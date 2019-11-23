@@ -1,7 +1,9 @@
 package com.personal.lifecycle.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -24,10 +26,6 @@ public class ListFragment extends BaseFragment implements FragmentInf {
     private RecyclerViewAdapter mAdapter;
     private ArrayList<LifeEvent> mEventList = new ArrayList<>();
 
-    public ListFragment(ActInf inf) {
-        super(inf);
-    }
-
     @Override
     public int getLayoutId() {
         return R.layout.list_fragment_layout;
@@ -39,8 +37,8 @@ public class ListFragment extends BaseFragment implements FragmentInf {
     }
 
     @Override
-    public String getTabTitle() {
-        return mInf.getAppCtx().getString(R.string.tab_title_list);
+    public CharSequence getTabTitle(Context context) {
+        return context.getString(R.string.tab_title_list);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class ListFragment extends BaseFragment implements FragmentInf {
     @Override
     public void init() {
         super.init();
-        String list = SharedPreferenceUtil.getEventList(mInf.getAppCtx());
+        String list = SharedPreferenceUtil.getEventList(getActivity());
         if (list != null && !"".equals(list)) {
             String[] eventList = list.split("\n");
             for (int i = 0; i < eventList.length; i++) {
@@ -99,7 +97,7 @@ public class ListFragment extends BaseFragment implements FragmentInf {
         switch (requestCode) {
             case REQUEST_CODE_EVENT_CREATE:
                 if (resultCode == Activity.RESULT_OK) {
-                    mInf.postOnUiThread(new Runnable() {
+                    postOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             LifeEvent event = new LifeEvent();

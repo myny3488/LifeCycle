@@ -10,4 +10,5 @@
     <dimen name="event_edittext_height">50dp</dimen>
     <dimen name="event_time_textview_height">50dp</dimen>
     <dimen name="event_time_padding">5dp</dimen>
+    <dimen name="event_time_rec_radius">20dp</dimen>
 </resources>

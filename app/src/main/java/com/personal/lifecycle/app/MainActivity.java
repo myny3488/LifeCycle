@@ -19,8 +19,7 @@ import android.view.animation.Animation;
 import com.google.android.material.tabs.TabLayout;
 import com.personal.lifecycle.R;
 import com.personal.lifecycle.constants.ST;
-import com.personal.lifecycle.fragment.BaseFragment;
-import com.personal.lifecycle.fragment.FragmentPagerAdaper;
+import com.personal.lifecycle.fragment.AppPagerAdapter;
 import com.personal.lifecycle.fragment.ListFragment;
 import com.personal.lifecycle.fragment.SettingFragment;
 import com.personal.lifecycle.fragment.StatFragment;
@@ -28,13 +27,10 @@ import com.personal.lifecycle.util.AniUtil;
 import com.personal.lifecycle.util.AppLog;
 import com.personal.lifecycle.util.SharedPreferenceUtil;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity implements ActInf, ViewPager.OnPageChangeListener {
-    private ArrayList<BaseFragment> mFragmentList = new ArrayList<>();
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private FragmentPagerAdaper mAdaper;
+    private AppPagerAdapter mAdaper;
     private int mPosition;
 
     private View mCreateBtn;
@@ -47,11 +43,12 @@ public class MainActivity extends AppCompatActivity implements ActInf, ViewPager
         Log.d(TAG, "LifeCycle : onCreate()");
         setContentView(R.layout.activity_main);
 
-        makeFragmentList();
-
         mTabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);
-        mAdaper = new FragmentPagerAdaper(getSupportFragmentManager(), this);
+        mAdaper = new AppPagerAdapter(getSupportFragmentManager(), this)
+                .addFragment(new SettingFragment())
+                .addFragment(new ListFragment())
+                .addFragment(new StatFragment());
 
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setAdapter(mAdaper);
@@ -66,23 +63,13 @@ public class MainActivity extends AppCompatActivity implements ActInf, ViewPager
             @Override
             public void onClick(View view) {
                 AppLog.d(TAG, "onCreateBtnClicked");
-                if (view == null || mFragmentList == null || mFragmentList.size() == 0) {
-                    AppLog.d(TAG, "view = " + view);
-                    AppLog.d(TAG, "mFragmentList = " + mFragmentList);
-                    AppLog.d(TAG, "mFragmentList.size() = " + mFragmentList.size());
-                    return;
+                if (mAdaper != null) {
+                    mAdaper.onCreateBtnClicked(view);
                 }
-                mFragmentList.get(mPosition).onCreateBtnClicked(view);
             }
         });
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
-    }
-
-    private void makeFragmentList() {
-        mFragmentList.add(new SettingFragment(this));
-        mFragmentList.add(new ListFragment(this));
-        mFragmentList.add(new StatFragment(this));
     }
 
     @Override
@@ -101,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements ActInf, ViewPager
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "LifeCycle : onResume()");
+        float density = getResources().getDisplayMetrics().density;
+        Log.d(TAG, "LifeCycle : verify display, density = " + density);
     }
 
     @Override
@@ -120,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements ActInf, ViewPager
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "LifeCycle : onDestroy()");
-        mFragmentList.clear();
         mViewPager.removeOnPageChangeListener(this);
         mTabLayout = null;
         mViewPager = null;
@@ -140,11 +128,6 @@ public class MainActivity extends AppCompatActivity implements ActInf, ViewPager
     @Override
     public Context getAppCtx() {
         return getApplicationContext();
-    }
-
-    @Override
-    public ArrayList<BaseFragment> getFragmentList() {
-        return mFragmentList;
     }
 
     @Override

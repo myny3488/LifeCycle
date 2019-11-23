@@ -1,14 +1,13 @@
 package com.personal.lifecycle.fragment;
-import android.view.View;
 
 import static com.personal.lifecycle.constants.AppConstants.*;
+
+import android.content.Context;
+import android.view.View;
+
 import com.personal.lifecycle.R;
-import com.personal.lifecycle.app.ActInf;
 
 public class SettingFragment extends BaseFragment {
-    public SettingFragment(ActInf inf) {
-        super(inf);
-    }
 
     @Override
     public int getLayoutId() {
@@ -21,8 +20,8 @@ public class SettingFragment extends BaseFragment {
     }
 
     @Override
-    public String getTabTitle() {
-        return mInf.getAppCtx().getString(R.string.tab_title_setting);
+    public CharSequence getTabTitle(Context context) {
+        return context.getString(R.string.tab_title_setting);
     }
 
     @Override

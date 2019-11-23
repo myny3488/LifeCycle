@@ -4,14 +4,13 @@ import android.content.Context;
 
 import com.personal.lifecycle.fragment.BaseFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public interface ActInf {
     public MainActivity getActivity();
 
     public Context getAppCtx();
-
-    public ArrayList<BaseFragment> getFragmentList();
 
     public void postOnUiThread(Runnable runnable);
 

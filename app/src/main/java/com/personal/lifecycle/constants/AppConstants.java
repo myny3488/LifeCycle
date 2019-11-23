@@ -2,8 +2,8 @@ package com.personal.lifecycle.constants;
 
 public class AppConstants {
     public static final String TAG = "LifeCycleApp";
-
     public static final String APP_PACKAGE = "com.personal.lifecycle";
+    public static final String KEY_ACTIVITY_INTERFACE = "key_act_inf";
 
     public static final String TAB_LIST = "page_list";
     public static final String TAB_STAT = "page_stat";

@@ -2,7 +2,9 @@ package com.personal.lifecycle.fragment;
 
 import static com.personal.lifecycle.constants.AppConstants.*;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +17,19 @@ import com.personal.lifecycle.app.ActInf;
 import com.personal.lifecycle.util.AppLog;
 
 public abstract class BaseFragment extends Fragment {
-    protected ActInf mInf;
     private View mBaseView;
+
+    protected Handler mHandler = new Handler();
 
     abstract public int getLayoutId();
 
     abstract public String getPageMode();
 
-    abstract public String getTabTitle();
+    abstract public CharSequence getTabTitle(Context context);
 
     abstract protected void initUI(View baseView);
 
     public void init() {
-    }
-
-    public BaseFragment(ActInf inf) {
-        mInf = inf;
     }
 
     @Override
@@ -44,7 +43,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         AppLog.d(TAG, "onCreateView = " + getPageMode());
         mBaseView = inflater.inflate(getLayoutId(), null);
-        mInf.postOnUiThread(new Runnable() {
+        postOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mBaseView == null) {
@@ -58,5 +57,13 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void onCreateBtnClicked(View view) {
+    }
+
+    protected void postOnUiThread(Runnable r) {
+        mHandler.post(r);
+    }
+
+    protected void postOnUiThread(Runnable r, int delay) {
+        mHandler.postDelayed(r, delay);
     }
 }
