@@ -12,13 +12,36 @@ import static com.personal.lifecycle.constants.AppConstants.*;
 
 public class LifeEvent implements Serializable {
     private String mTitle;
-    private Date mDate;
+    private Date mStartDate;
+    private Date mEndDate;
+
+    private LifeEvent(String title, Date startDate, Date endDate) {
+        mTitle = title;
+        mStartDate = startDate;
+        mEndDate = endDate;
+    }
+
+    public static class Builder {
+        private String title;
+        private Date startDate;
+        private Date endDate;
+
+        public Builder(String title, Date startDate, Date endDate) {
+            this.title = title;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public LifeEvent build() {
+            return new LifeEvent(title, startDate, endDate);
+        }
+    }
 
     public String flatten() {
         StringBuilder builder = new StringBuilder();
         builder.append(mTitle);
         builder.append(";");
-        builder.append(Utils.dateToString(mDate, DATE_FORMAT));
+        builder.append(Utils.dateToString(mStartDate, DATE_FORMAT));
         return builder.toString();
     }
 
@@ -28,7 +51,7 @@ public class LifeEvent implements Serializable {
         }
         String[] splited = list.split(";");
         mTitle = splited[0];
-        mDate = Utils.stringToDate(splited[1], DATE_FORMAT);
+        mStartDate = Utils.stringToDate(splited[1], DATE_FORMAT);
         return this;
     }
 
@@ -42,7 +65,7 @@ public class LifeEvent implements Serializable {
     }
 
     public LifeEvent setDate(Date date) {
-        mDate = date;
+        mStartDate = date;
         return this;
     }
 }

@@ -65,7 +65,10 @@ public class ListFragment extends BaseFragment implements FragmentInf {
         if (list != null && !"".equals(list)) {
             String[] eventList = list.split("\n");
             for (int i = 0; i < eventList.length; i++) {
-                mEventList.add(new LifeEvent().unflatten(eventList[i]));
+                String[] unflattend = eventList[i].split(";");
+                LifeEvent event = new LifeEvent.Builder(unflattend[0], null, null)
+                        .build();
+                mEventList.add(event);
             }
         }
     }
@@ -100,8 +103,9 @@ public class ListFragment extends BaseFragment implements FragmentInf {
                     postOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LifeEvent event = new LifeEvent();
-                            event.setTitle("test" + mEventList.size());
+                            String title = "test" + mEventList.size();
+                            LifeEvent event = new LifeEvent.Builder(title, null, null)
+                                    .build();
                             mEventList.add(event);
                             mAdapter.set(mEventList).notifyItemInserted(mEventList.size() - 1);
                         }

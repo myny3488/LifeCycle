@@ -11,8 +11,10 @@ public class AppConstants {
 
     public static final String ACTION_EVENT_CREATE = "com.personal.lifecycle.create_event";
     public static final int REQUEST_CODE_EVENT_CREATE = 1;
-    public static final String EXTRA_START_EVENT = "extra_start_event";
-    public static final String EXTRA_END_EVENT = "extra_end_event";
+    public static final String EXTRA_START_EVENT_HOUR = "extra_start_event_hour";
+    public static final String EXTRA_START_EVENT_MIN = "extra_start_event_hour_min";
+    public static final String EXTRA_END_EVENT_HOUR = "extra_end_event_hour";
+    public static final String EXTRA_END_EVENT_MIN = "extra_end_event_min";
 
     public static final int TAB_DEFAULT_POSITION = 1;
 

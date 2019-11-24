@@ -4,6 +4,7 @@ import static com.personal.lifecycle.constants.AppConstants.*;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EventCreateActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class EventCreateActivity extends AppCompatActivity implements DialogInterface.OnShowListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,21 +39,21 @@ public class EventCreateActivity extends AppCompatActivity implements TimePicker
 
     private void initLayout() {
         Intent intent = getIntent();
-        if (intent.hasExtra(EXTRA_START_EVENT) && intent.hasExtra(EXTRA_END_EVENT)) {
+        if (intent.hasExtra(EXTRA_START_EVENT_HOUR) && intent.hasExtra(EXTRA_END_EVENT_HOUR)) {
         } else {
             Calendar calendar = Calendar.getInstance();
-            int hour = calendar.get(Calendar.HOUR);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int min = calendar.get(Calendar.MINUTE);
             TextView tv = findViewById(R.id.event_start_textview);
-            tv.setText(hour + ":" + min);
+            tv.setText(hour + ":" + String.format("%02d", min));
 
             min += 5;
             if (min >= 60) {
-                hour++;
+                hour = (hour + 1) % 24;
                 min -= 60;
             }
             tv = findViewById(R.id.event_end_textview);
-            tv.setText(hour + ":" + min);
+            tv.setText(hour + ":" + String.format("%02d", min));
         }
     }
 
@@ -86,28 +87,68 @@ public class EventCreateActivity extends AppCompatActivity implements TimePicker
         });
     }
 
-    private void initTimes() {
-        Calendar calendar = Calendar.getInstance();
-        TextView textView = findViewById(R.id.event_start_textview);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-    }
-
     private void showTimePickerDialog(boolean start) {
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int min = calendar.get(Calendar.MINUTE);
+        int hour;
+        int min;
         if (start) {
-
+            if (getIntent().hasExtra(EXTRA_START_EVENT_HOUR) || getIntent().hasExtra(EXTRA_START_EVENT_MIN)) {
+                hour = getIntent().getIntExtra(EXTRA_START_EVENT_HOUR, 0);
+                min = getIntent().getIntExtra(EXTRA_START_EVENT_MIN, 0);
+            } else {
+                Calendar calendar = Calendar.getInstance();
+                hour = calendar.get(Calendar.HOUR_OF_DAY);
+                min = calendar.get(Calendar.MINUTE);
+            }
+            TimePickerDialog dialog = new TimePickerDialog(this,
+                    mStartTimerListener, hour, min, DateFormat.is24HourFormat(this));
+            dialog.setOnShowListener(this);
+            dialog.show();
         } else {
+            if (getIntent().hasExtra(EXTRA_START_EVENT_HOUR) || getIntent().hasExtra(EXTRA_START_EVENT_MIN)) {
+                hour = getIntent().getIntExtra(EXTRA_START_EVENT_HOUR, 0);
+                min = getIntent().getIntExtra(EXTRA_START_EVENT_MIN, 0);
+            } else {
+                Calendar calendar = Calendar.getInstance();
+                hour = calendar.get(Calendar.HOUR_OF_DAY);
+                min = calendar.get(Calendar.MINUTE);
 
+                min += 5;
+                if (min >= 60) {
+                    min -= 60;
+                    hour = (hour + 1) % 24;
+                }
+            }
+            TimePickerDialog dialog = new TimePickerDialog(this,
+                    mEndTimerListener, hour, min, DateFormat.is24HourFormat(this));
+            dialog.setOnShowListener(this);
+            dialog.show();
         }
-        TimePickerDialog dialog = new TimePickerDialog(this,
-                this, hour, min, DateFormat.is24HourFormat(this));
-        dialog.show();
+        findViewById(R.id.event_start_imageview).setEnabled(false);
+        findViewById(R.id.event_end_imageview).setEnabled(false);
     }
+
+    private TimePickerDialog.OnTimeSetListener mStartTimerListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+            AppLog.d(TAG, "onStartTimeSet, hour = " + hourOfDay + ", minute = " + minute);
+            TextView tv = findViewById(R.id.event_start_textview);
+            tv.setText(hourOfDay + ":" + String.format("%02d", minute));
+        }
+    };
+
+    private TimePickerDialog.OnTimeSetListener mEndTimerListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+            AppLog.d(TAG, "onEndTimeSet, hour = " + hourOfDay + ", minute = " + minute);
+            TextView tv = findViewById(R.id.event_end_textview);
+            tv.setText(hourOfDay + ":" + String.format("%02d", minute));
+        }
+    };
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        AppLog.d(TAG, "onTimeSet, hour = " + hourOfDay + ", minute = " + minute);
+    public void onShow(DialogInterface dialogInterface) {
+        AppLog.d(TAG, "onDialogShow");
+        findViewById(R.id.event_start_imageview).setEnabled(true);
+        findViewById(R.id.event_end_imageview).setEnabled(true);
     }
 }
