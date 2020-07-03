@@ -19,6 +19,7 @@ import com.personal.lifecycle.util.AppLog;
 import com.personal.lifecycle.util.SharedPreferenceUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ListFragment extends BaseFragment implements FragmentInf {
@@ -100,16 +101,13 @@ public class ListFragment extends BaseFragment implements FragmentInf {
         switch (requestCode) {
             case REQUEST_CODE_EVENT_CREATE:
                 if (resultCode == Activity.RESULT_OK) {
-                    postOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String title = "test" + mEventList.size();
-                            LifeEvent event = new LifeEvent.Builder(title, null, null)
-                                    .build();
-                            mEventList.add(event);
-                            mAdapter.set(mEventList).notifyItemInserted(mEventList.size() - 1);
-                        }
-                    });
+                    String title = data.getStringExtra(KEY_EVENT_TITLE);
+                    String start = data.getStringExtra(KEY_START_TIME);
+                    String end = data.getStringExtra(KEY_END_TIME);
+                    LifeEvent event = new LifeEvent.Builder(title, new Date(), new Date())
+                            .build();
+                    mEventList.add(event);
+                    mAdapter.set(mEventList).notifyItemInserted(mEventList.size() - 1);
                 }
                 break;
             default:

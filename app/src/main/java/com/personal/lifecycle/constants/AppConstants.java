@@ -20,4 +20,8 @@ public class AppConstants {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm";
     public static final String DATE_SIMPLE_FORMAT = "HH:mm";
+
+    public static final String KEY_EVENT_TITLE = "key_event_title";
+    public static final String KEY_START_TIME = "key_start_time";
+    public static final String KEY_END_TIME = "key_end_time";
 }

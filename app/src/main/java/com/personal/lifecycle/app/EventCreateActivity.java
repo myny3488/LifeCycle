@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -24,6 +25,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EventCreateActivity extends AppCompatActivity implements DialogInterface.OnShowListener {
+    private String mStartTime;
+    private String mEndTime;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +65,14 @@ public class EventCreateActivity extends AppCompatActivity implements DialogInte
         findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResult(RESULT_OK);
+                EditText editText = findViewById(R.id.event_name_edittext);
+                String title = editText.getText().toString();
+
+                Intent intent = new Intent();
+                intent.putExtra(KEY_EVENT_TITLE, title);
+                intent.putExtra(KEY_START_TIME, mStartTime);
+                intent.putExtra(KEY_END_TIME, mEndTime);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -132,7 +143,8 @@ public class EventCreateActivity extends AppCompatActivity implements DialogInte
         public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
             AppLog.d(TAG, "onStartTimeSet, hour = " + hourOfDay + ", minute = " + minute);
             TextView tv = findViewById(R.id.event_start_textview);
-            tv.setText(hourOfDay + ":" + String.format("%02d", minute));
+            mStartTime = hourOfDay + ":" + String.format("%02d", minute);
+            tv.setText(mStartTime);
         }
     };
 
@@ -141,7 +153,8 @@ public class EventCreateActivity extends AppCompatActivity implements DialogInte
         public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
             AppLog.d(TAG, "onEndTimeSet, hour = " + hourOfDay + ", minute = " + minute);
             TextView tv = findViewById(R.id.event_end_textview);
-            tv.setText(hourOfDay + ":" + String.format("%02d", minute));
+            mEndTime = hourOfDay + ":" + String.format("%02d", minute);
+            tv.setText(mEndTime);
         }
     };
 
